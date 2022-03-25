@@ -22,6 +22,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
+      fail-fast: true
       matrix:
         os: [windows-latest]
     steps:
@@ -57,7 +58,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Tauri Build
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
