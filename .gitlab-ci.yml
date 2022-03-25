@@ -1,0 +1,67 @@
+variables:
+  CONTAINER_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_REF_SLUG}_${CI_BUILD_REF}
+  CONTAINER_IMAGE_LATEST: ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+
+image: docker:latest
+before_script:
+  - mkdir -p ~/.ssh
+stages:
+  - build
+  - dockerize
+  - deploy
+
+# npm install + ng build (+ ng test)
+build:
+  cache:
+    paths:
+      - node_modules/
+  stage: build
+  image: trion/ng-cli-karma
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist/
+  script:
+    - rm ./package-lock.json
+    #- npx npm-force-resolutions
+    - npm install --force
+    - ./node_modules/@angular/cli/bin/ng.js build --aot --vendor-chunk --common-chunk --delete-output-path --build-optimizer --configuration production
+
+# build docker image
+dockerize:
+  stage: dockerize
+  dependencies:
+    - build
+  image: docker:stable
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - echo $BUILD_CODE_IMAGE
+    - docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+    - docker tag $CONTAINER_IMAGE $CONTAINER_IMAGE_LATEST
+    - docker push $CONTAINER_IMAGE
+    - docker push $CONTAINER_IMAGE_LATEST
+  only:
+    - tags
+
+# deploy to server
+deploy:
+  stage: deploy
+  dependencies:
+    - dockerize
+  image: ictu/sshpass:latest
+  services:
+    - docker:dind
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $PROD_SERVER >> ~/.ssh/known_hosts
+  script:
+    - sshpass -p $LOGIN_KEY ssh igor@$PROD_SERVER "cd docker && cd Privat && cd defichain-income && docker login -u $REGISTRY_LOGIN -p $REGISTRY_KEY registry.gitlab.com && ./deploy.sh && exit"
+  only:
+     - tags

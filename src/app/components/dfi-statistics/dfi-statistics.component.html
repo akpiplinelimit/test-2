@@ -1,0 +1,23 @@
+<div class="flex flex-col items-stretch min-h-96vh sm:min-h-full h-96">
+<select
+    class="bg-gray-100 px-3 py-2 rounded-md w-40 dark:bg-gray-700 dark:text-gray-100"
+    (change)="onChangeCPCurrency($event.target.value)"
+    value="coinpaprikaCurrency"
+  >
+    <option [selected]="coinpaprikaCurrency === 'BTC'" value="BTC">BTC</option>
+    <option [selected]="coinpaprikaCurrency === 'BCH'" value="BCH">BCH</option>
+    <option [selected]="coinpaprikaCurrency === 'ETH'" value="ETH">ETH</option>
+    <option [selected]="coinpaprikaCurrency === 'LTC'" value="LTC">LTC</option>
+    <option [selected]="coinpaprikaCurrency === 'DOGE'" value="DOGE">DOGE</option>
+    <option [selected]="coinpaprikaCurrency === 'USDT'" value="USDT">USDT</option>
+    <option [selected]="coinpaprikaCurrency === 'USD'" value="USD">USD</option>
+    <option [selected]="coinpaprikaCurrency === 'EUR'" value="EUR">EUR</option>
+    <option [selected]="coinpaprikaCurrency === 'CHF'" value="CHF">CHF</option>
+    <option [selected]="coinpaprikaCurrency === 'GBP'" value="GBP">GBP</option>
+  </select>
+
+
+  <div class="tradingview-widget-container mt-2 flex-1" style="max-height: 85%;">
+    <div id="tradingview_59a11"></div>
+  </div>  
+</div>

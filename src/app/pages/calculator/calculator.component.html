@@ -1,0 +1,111 @@
+<div>
+   <h1 class="text-3xl mb-4 text-pink-500">{{ "income.calc" | translate }}</h1>
+  <div class="w-full lg:w-1/2">
+    <div class="grid grid-flow-col grid-cols-3 select-none">
+      <a
+        (click)="onChangeDetails('Staking')"
+        class="text-center cursor-pointer border-b-2 border-transparent uppercase pb-2 self-center"
+        [ngClass]="details === 'Staking' ? 'text-pink-500 border-pink-500': 'dark:text-gray-100'"
+      >
+        Staking
+      </a>
+      <a
+        (click)="onChangeDetails('LM')"
+        class="text-center cursor-pointer border-b-2 border-transparent uppercase pb-2 self-center"
+        [ngClass]="details === 'LM' ? 'text-pink-500 border-pink-500': 'dark:text-gray-100'"
+
+      >
+        Liquidity Mining
+      </a>
+      <a
+        (click)="onChangeDetails('Calc')"
+        class="text-center cursor-pointer border-b-2 border-transparent uppercase pb-2 self-center"
+        [ngClass]="details === 'Calc' ? 'text-pink-500 border-pink-500': 'dark:text-gray-100'"
+      >
+        {{ "details-calc" | translate }}
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div *ngIf="details === 'Calc'">
+      <app-apy-calculator
+        [stakingApyMN]="stakingApyMN"
+        [stakingApyCake]="stakingApyCake"
+        [poolBtc]="poolBtc"
+        [fiat]="fiat"
+      ></app-apy-calculator>
+    </div>
+    <div *ngIf="details === 'Staking'">
+      <app-staking-target-calculator [stakingApy]="stakingApy"></app-staking-target-calculator>
+    </div>
+    <div *ngIf="details === 'LM'">
+      <app-lm-target-calculator
+        [poolBtc]="poolBtc"
+        [poolBch]="poolBch"
+        [poolDoge]="poolDoge"
+        [poolLtc]="poolLtc"
+        [poolUsdt]="poolUsdt"
+        [poolUsdc]="poolUsdc"
+        [poolEth]="poolEth"
+        [poolUsd]='poolUsd'
+        [poolTsla]='poolTsla'
+        [poolAapl]='poolAapl'
+        [poolArkk]='poolArkk'
+        [poolBaba]='poolBaba'
+        [poolGld]='poolGld'
+        [poolGme]='poolGme'
+        [poolGoogl]='poolGoogl'
+        [poolPdbc]='poolPdbc'
+        [poolPltr]='poolPltr'
+        [poolQqq]='poolQqq'
+        [poolSlv]='poolSlv'
+        [poolSpy]='poolSpy'
+        [poolTlt]='poolTlt'
+        [poolUrth]='poolUrth'
+        [poolVnq]='poolVnq'
+        [poolEem]='poolEem'
+        [poolCoin]='poolCoin'
+        [poolNvda]='poolNvda'
+        [poolAmzn]='poolAmzn'
+        [poolMsft]='poolMsft'
+        [poolNflx]='poolNflx'
+        [poolFb]='poolFb'
+        [poolVoo]='poolVoo'
+        [blocktimeInS]="blocktimeInS"
+        [dfiProBlockBch]="dfiProBlockBch"
+        [dfiProBlockBtc]="dfiProBlockBtc"
+        [dfiProBlockDoge]="dfiProBlockDoge"
+        [dfiProBlockEth]="dfiProBlockEth"
+        [dfiProBlockLtc]="dfiProBlockLtc"
+        [dfiProBlockUsdc]="dfiProBlockUsdc"
+        [dfiProBlockUsdt]="dfiProBlockUsdt"
+        [dfiProBlockUsd]="dfiProBlockUsd"
+        [dfiProBlockTsla]="dfiProBlockTsla"
+        [dfiProBlockAapl]='dfiProBlockAapl'
+        [dfiProBlockArkk]='dfiProBlockArkk'
+        [dfiProBlockBaba]='dfiProBlockBaba'
+        [dfiProBlockGld]='dfiProBlockGld'
+        [dfiProBlockGme]='dfiProBlockGme'
+        [dfiProBlockGoogl]='dfiProBlockGoogl'
+        [dfiProBlockPdbc]='dfiProBlockPdbc'
+        [dfiProBlockPltr]='dfiProBlockPltr'
+        [dfiProBlockQqq]='dfiProBlockQqq'
+        [dfiProBlockSlv]='dfiProBlockSlv'
+        [dfiProBlockSpy]='dfiProBlockSpy'
+        [dfiProBlockTlt]='dfiProBlockTlt'
+        [dfiProBlockUrth]='dfiProBlockUrth'
+        [dfiProBlockVnq]='dfiProBlockVnq'
+        [dfiProBlockAmzn]='dfiProBlockAmzn'
+        [dfiProBlockCoin]='dfiProBlockCoin'
+        [dfiProBlockEem]='dfiProBlockEem'
+        [dfiProBlockNvda]='dfiProBlockNvda'
+        [dfiProBlockMsft]='dfiProBlockMsft'
+        [dfiProBlockNflx]='dfiProBlockNflx'
+        [dfiProBlockFb]='dfiProBlockFb'
+        [dfiProBlockVoo]='dfiProBlockVoo'
+      >
+      </app-lm-target-calculator>
+    </div>
+  </div>
+</div>
